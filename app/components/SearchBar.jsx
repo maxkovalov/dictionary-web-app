@@ -1,12 +1,15 @@
 "use client";
 
-import React, { use } from "react";
+import React from "react";
 import { useState, useEffect } from "react";
+import useStore from "../utils/useStore";
+import BeatLoader from "react-spinners/BeatLoader";
+import className from 'classnames'
 
 function SearchBar() {
   const [word, setWord] = useState("");
-  const [result, setResult] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const { isLoading, error, fetchData, deleteData } = useStore();
+  const [color, setColor] = useState("#a445ed");
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [message, setMessage] = useState("");
 
@@ -22,15 +25,15 @@ function SearchBar() {
     setWord(inputValue);
   };
 
-  async function fetchWord() {
-    setLoading(true);
-    const res = await fetch(
-      `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
-    );
-    const data = await res.json();
-    setResult(data);
-    setLoading(false);
-  }
+  const handleEnterKey = async (e) => {
+    if (e.keyCode === 13) {
+      await fetchData(word);
+    }
+  };
+
+  const handleClick = async () => {
+    await fetchData(word);
+  };
 
   return (
     <>
@@ -39,37 +42,29 @@ function SearchBar() {
           id="search"
           type="text"
           placeHolder="Search for any word..."
+          value={word}
+          pattern="[A-Za-z]{1,}"
           onChange={handleSearhInputChange}
-          className="w-full bg-off-white rounded-lg font-semibold px-4 py-3 caret-lavender  focus:outline-lavender"
+          onKeyDown={handleEnterKey}
+          className={className("w-full bg-off-white rounded-lg font-semibold px-4 py-3 caret-lavender focus:outline focus:outline-lavender border border-transparent hover:border hover:border-lavender invalid:ring-2 invalid:ring-red dark:bg-charcoal dark:text-white", {
+            "outline outline-red focus:outline-red hover:border-transparent": message
+          })}
         />
         <button
-          onClick={fetchWord}
+          onClick={handleClick}
           disabled={btnDisabled}
           className="absolute top-0 right-0 p-4 scale-90"
         >
           <img src="./assets/images/icon-search.svg"></img>
         </button>
-        {message && <div className="text-red p-1">{message}</div>}
+        {message && <div className="absolute text-red p-1">{message}</div>}
       </div>
-      {loading ? (
-        <p>Loading...</p>
-      ) : (
-        <div>
-          {result.map((item) => (
-            <div key={item.id}>
-              <h2>{item.word}</h2>
-              {item.meanings.map((meaning) => (
-                <div key={meaning.partOfSpeech}>
-                  <h3>{meaning.partOfSpeech}</h3>
-                  {meaning.definitions.map((definition) => (
-                    <p key={definition.definition}>{definition.definition}</p>
-                  ))}
-                </div>
-              ))}
-            </div>
-          ))}
+      {isLoading && (
+        <div className="flex justify-center pt-32">
+          <BeatLoader color={color} />
         </div>
       )}
+      {/* {error && <p>Error: {error}</p>} */}
     </>
   );
 }

@@ -3,15 +3,18 @@ import { Inter } from "next/font/google";
 import styles from "./page.module.css";
 
 import SearchBar from "./components/SearchBar";
-
-const inter = Inter({ subsets: ["latin"] });
+import Result from "./components/Result";
+import className from "classnames";
 
 export default function Home() {
   return (
     <>
-      <main className="max-w-3xl m-auto">
-        <SearchBar />
-      </main>
+      <body className="px-12 dark:bg-black">
+        <main className="max-w-3xl m-auto">
+          <SearchBar />
+          <Result />
+        </main>
+      </body>
     </>
   );
 }

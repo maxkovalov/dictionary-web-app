@@ -26,7 +26,7 @@
   font-display: swap;
 }
 
-#search::selection {
+::selection {
   background-color: #a445ed;
   color: white;
 }
