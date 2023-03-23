@@ -1,6 +1,7 @@
 /** @type {import('tailwindcss').Config} */
 
 const defaultTheme = require('tailwindcss/defaultTheme')
+const plugin = require('tailwindcss/plugin')
 
 module.exports = {
   content: [
@@ -27,7 +28,12 @@ module.exports = {
       lavender: "#a445ed",
       red: "#FF5252",
     },
+    maxWidth: {
+      "3xl": "46.0625rem",
+    },
     extend: {
+      boxShadow: {
+        'lg': '0px 7px 29px 0px rgba(100, 100, 111, 0.2)'},
       fontFamily: {
         'sans': ['Inter', ...defaultTheme.fontFamily.sans],
         'serif': ['Lora', ...defaultTheme.fontFamily.serif],
@@ -35,4 +41,17 @@ module.exports = {
       }
     }
   },
+  plugins: [
+		plugin(function ({ addUtilities }) {
+			addUtilities({
+				'.drag-none': {
+					'-webkit-user-drag': 'none',
+					'-khtml-user-drag': 'none',
+					'-moz-user-drag': 'none',
+					'-o-user-drag': 'none',
+					'user-drag': 'none'
+				}
+			});
+		})
+	]
 };

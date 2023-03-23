@@ -14,10 +14,10 @@ function Result() {
   };
 
   return (
-    <div>
+    <>
       {data && !isLoading && data.title && (
-        <div className="flex flex-col py-14 text-center">
-          <span className="text-4xl">&#128577;</span>
+        <div className="flex flex-col py-14 text-center transition ease duration-300">
+          <span className="text-xl">&#128577;</span>
           <h1 className="font-bold pt-8 dark:text-white">{data.title}</h1>
           <p className="pt-4 dark:text-gray">{`${data.message} ${data.resolution}`}</p>
         </div>
@@ -26,10 +26,10 @@ function Result() {
         <div>
           <div className="flex justify-between">
             <div>
-              <h2 className="text-5xl font-bold dark:text-white">
+              <h2 className="text-6xl font-extrabold tracking-wide dark:text-white">
                 {data[0].word}
               </h2>
-              <p className="text-lg text-lavender mt-2">{data[0].phonetic}</p>
+              <p className="text-2xl text-lavender mt-4">{data[0].phonetic}</p>
             </div>
             <div>
               {data[0].phonetics.find((phonetic) => phonetic.audio) && (
@@ -43,26 +43,23 @@ function Result() {
                 >
                   <div className="">
                     <svg
-                      className=""
+                      className="scale-125 mt-4 transition ease duration-300"
                       xmlns="http://www.w3.org/2000/svg"
                       width="75"
                       height="75"
                       viewBox="0 0 75 75"
                     >
                       <g
-                        className=" fill-lavender hover:opacity-100  hover:fill-white"
-                        fill-rule="evenodd"
+                        className="fill-lavender hover:fill-white"
+                        fill-rule="nonzero"
                       >
                         <circle
-                          className="fill-inherit opacity-30 hover:fill-lavender hover:opacity-100"
+                          className="fill-lavender hover:fill-lavender opacity-30 hover:opacity-100"
                           cx="37.5"
                           cy="37.5"
                           r="37.5"
                         />
-                        <path
-                          className="fill-inherit opacity-100 hover:fill-white"
-                          d="M29 27v21l21-10.5z"
-                        />
+                        <path className="fill-inherit" d="M29 27v21l21-10.5z" />
                       </g>
                     </svg>
                   </div>
@@ -73,69 +70,42 @@ function Result() {
           <div className="border-b-2 border-light-gray">
             {/* Meanings */}
             {data[0].meanings.map((meaning) => (
-              <div key={meaning.partOfSpeech}>
-                <div className="inline-block w-full overflow-hidden">
+              <div
+                className="flex flex-col space-y-8"
+                key={meaning.partOfSpeech}
+              >
+                <div className=" mt-9 inline-block w-full overflow-hidden">
                   <h3 className="text-2xl font-bold italic relative dark:text-white">
                     {meaning.partOfSpeech}
                     <span className="absolute w-full ml-4 top-1/2 border-b border-off-white dark:border-gray"></span>
                   </h3>
                 </div>
-                <h4 className="text-lg text-gray font-medium my-4">Meaning</h4>
+                <h4 className="text-xl text-gray">Meaning</h4>
                 <ul className="">
                   {meaning.definitions.map((definition) => (
                     <li
-                      className="list-disc list-outside ml-8 mb-2 text-charcoal dark:text-white marker:text-lavender"
+                      className="list-disc list-outside ml-12 mb-2 text-lg leading-6 text-charcoal dark:text-white marker:text-lavender"
                       key={definition.definition}
                     >
                       {definition.definition}
                     </li>
                   ))}
                 </ul>
-                <h4 className="text-lg text-gray font-medium my-4">Synonyms</h4>
+                <h4 className="text-xl text-gray my-4">Synonyms</h4>
               </div>
             ))}
           </div>
+          {data[0].sourceUrls && (
+            <div className="dark:text-white text-sm py-4">
+              <a className="flex items-center hover:underline hover:underline-offset-2 hover:decoration-2 decoration-lavender" href={data[0].sourceUrls[0]} target="_blank" rel="noreferrer">{data[0].sourceUrls[0]}
+              <div className="-order-1 pr-5">Source</div>
+              <svg className="ml-2 fill-none stroke-gray hover:stroke-lavender dark:stroke-white" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"><path className="" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6.09 3.545H2.456A1.455 1.455 0 0 0 1 5v6.545A1.455 1.455 0 0 0 2.455 13H9a1.455 1.455 0 0 0 1.455-1.455V7.91m-5.091.727 7.272-7.272m0 0H9m3.636 0V5"/></svg>
+              </a>
+            </div>
+          )}
         </div>
       )}
-      {/* {data &&
-        data.map(
-          (item) =>
-            item.word && (
-              <div key={item.id}>
-                <div className="flex border border-red justify-between">
-                  <div>
-                    <h2 className="text-5xl font-bold">{item.word}</h2>
-                    <p className="text-lg text-lavender">{item.phonetic}</p>
-                  </div>
-                  <div>
-                    {item.phonetics.find((phonetic) => phonetic.audio) && (
-                      <button
-                        onClick={() =>
-                          handlePlayAudio(
-                            item.phonetics.find((phonetic) => phonetic.audio)
-                              .audio
-                          )
-                        }
-                        className="p-0 scale-75"
-                      >
-                        <img src="./assets/images/icon-play.svg"></img>
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {item.meanings.map((meaning) => (
-                  <div key={meaning.partOfSpeech}>
-                    <h3>{meaning.partOfSpeech}</h3>
-                    {meaning.definitions.map((definition) => (
-                      <p key={definition.definition}>{definition.definition}</p>
-                    ))}
-                  </div>
-                ))}
-              </div>
-            )
-        )} */}
-    </div>
+    </>
   );
 }
 
