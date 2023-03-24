@@ -1,5 +1,6 @@
 import './globals.css'
 import NavBar from './components/NavBar'
+import Script from 'next/script'
 
 export const metadata = {
   title: 'Dictionary Web App',

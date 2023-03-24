@@ -7,7 +7,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 import className from 'classnames'
 
 function SearchBar() {
-  const [word, setWord] = useState("");
+  const [word, setWord] = useStore(state => [state.word, state.setWord])
   const { isLoading, error, fetchData, deleteData } = useStore();
   const [color, setColor] = useState("#a445ed");
   const [btnDisabled, setBtnDisabled] = useState(true);
@@ -42,12 +42,15 @@ function SearchBar() {
           id="search"
           type="text"
           placeholder="Search for any word..."
+          autoCapitalize="off"
           value={word}
           pattern="[A-Za-z]{1,}"
           onChange={handleSearhInputChange}
           onKeyDown={handleEnterKey}
-          className={className("w-full bg-off-white rounded-2xl font-bold text-xl px-6 py-5 caret-lavender focus:outline focus:outline-lavender border border-transparent hover:border hover:border-lavender invalid:ring-2 invalid:ring-red dark:bg-charcoal dark:text-white", {
-            "outline outline-red focus:outline-red hover:border-transparent": message
+          className={className("w-full bg-off-white rounded-2xl font-bold text-xl px-6 py-5 caret-lavender focus:outline-none invalid:ring-2 invalid:ring-red dark:bg-charcoal dark:text-white", 
+          {
+            "border border-red": message,
+            "hover:border hover:border-lavender": !message,
           })}
         />
         <button

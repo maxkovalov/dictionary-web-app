@@ -32,9 +32,9 @@ function SplitButton() {
   };
 
   return (
-    <div className="flex border-r border-light-gray mr-3 relative cursor-pointer">
-      <div onClick={handleClick} className="flex pr-6 space-x-5 ">
-        <div className="font-bold text-lg ml-4 pl-6 dark:text-white">
+    <div className="flex relative cursor-pointer">
+      <div onClick={handleClick} className="flex gap-x-4">
+        <div className="font-bold text-lg dark:text-white ">
           {fontFamilies[currentFont]}
         </div>
         <img
@@ -43,13 +43,14 @@ function SplitButton() {
           alt="arrow-down"
         />
       </div>
+      {/* onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} */}
       {isOpen && (
-        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="absolute right-0 -translate-x-6 z-10 pt-10">
-          <div className="bg-white dark:bg-charcoal shadow-lg shadow-light-graydark:shadow-lg dark:shadow-lavender dark:text-white rounded-xl px-6 py-4 transition-all ease duration-300">
+        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="absolute z-10 pt-10">
+          <div className="flex flex-col space-y-4 py-5 pl-6 pr-16 bg-white dark:bg-charcoal shadow-lg shadow-light-graydark:shadow-lg dark:shadow-lavender dark:text-white rounded-2xl transition-all ease duration-300">
             {Object.entries(fontFamilies).map(([key, value]) => (
               <div
                 className={classNames(
-                  "cursor-pointer hover:text-lavender py-1",
+                  "flex cursor-pointer hover:text-lavender text-lg font-bold",
                   {
                     "font-bold": currentFont === key,
                     "font-sans": key === "sans",

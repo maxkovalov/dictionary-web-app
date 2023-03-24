@@ -12,17 +12,15 @@ function NavBar() {
           <div>
             <a className="drag-none" href="/">
               <img
-                className="drag-none"
+                className="drag-none min-w-fit"
                 src="./assets/images/logo.svg"
                 alt="logo"
               />
             </a>
           </div>
-          <div className="flex items-center h-3/6">
-            <div>
-              <SplitButton />
-            </div>
-            <div className="flex items-center">
+          <div className="flex divide-x divide-light-gray justify-around gap-x-6">
+            <SplitButton />
+            <div className="flex h-3/6">
               <Switch />
               <svg
                 className="fill-none stroke-gray hover:stroke-lavender dark:stroke-lavender select-none transition ease duration-300"

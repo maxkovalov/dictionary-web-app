@@ -1,11 +1,13 @@
 import { create } from "zustand";
 
 const useStore = create((set) => ({
+  word: null,
+  setWord: (word) => set(() => ({ word: word})),
   data: null,
   isLoading: false,
   error: null,
   fetchData: async (word) => {
-    set({ isLoading: true });
+    set({ isLoading: true, word: word });
     try {
       const res = await fetch(
         `https://api.dictionaryapi.dev/api/v2/entries/en/${word}`
@@ -18,7 +20,7 @@ const useStore = create((set) => ({
       set({ error: error.message, isLoading: false });
     }
   },
-  deleteData: set({ data: null})
+  // deleteData: set({ data: null})
 }));
 
 export default useStore;
