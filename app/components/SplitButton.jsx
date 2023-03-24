@@ -32,42 +32,54 @@ function SplitButton() {
   };
 
   return (
-    <div className="flex relative cursor-pointer">
-      <div onClick={handleClick} className="flex gap-x-4">
-        <div className="font-bold text-lg dark:text-white ">
+    <>
+      <div className="relative" onMouseLeave={handleMouseLeave}>
+        <button
+          onClick={handleClick}
+          onMouseEnter={handleClick}
+          className="font-bold text-lg text-black dark:text-white dark:bg-transparent focus:ring-4 focus:outline-none focus:ring-lavender rounded-lg text-center inline-flex items-center dark:focus:ring-lavender"
+        >
           {fontFamilies[currentFont]}
-        </div>
-        <img
-          className="drag-none"
-          src="./assets/images/icon-arrow-down.svg"
-          alt="arrow-down"
-        />
-      </div>
-      {/* onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} */}
-      {isOpen && (
-        <div onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} className="absolute z-10 pt-10">
-          <div className="flex flex-col space-y-4 py-5 pl-6 pr-16 bg-white dark:bg-charcoal shadow-lg shadow-light-graydark:shadow-lg dark:shadow-lavender dark:text-white rounded-2xl transition-all ease duration-300">
-            {Object.entries(fontFamilies).map(([key, value]) => (
-              <div
-                className={classNames(
-                  "flex cursor-pointer hover:text-lavender text-lg font-bold",
-                  {
-                    "font-bold": currentFont === key,
-                    "font-sans": key === "sans",
-                    "font-serif": key === "serif",
-                    "font-mono": key === "mono",
-                  }
-                )}
-                key={key}
-                onClick={() => handleFontSelect(key)}
-              >
-                {value}
-              </div>
-            ))}
+          <svg
+            className="w-4 h-4 ml-2"
+            aria-hidden="true"
+            viewBox="0 0 14 8"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              className="fill-none stroke-lavender stroke-1"
+              d="m1 1 6 6 6-6"
+            />
+          </svg>
+        </button>
+        {isOpen && (
+          <div
+            onMouseEnter={handleMouseEnter}
+            className="absolute -right-2 z-10 bg-white rounded-xl w-44 shadow-lg shadow-light-graydark:shadow-lg dark:shadow-lavender dark:bg-charcoal"
+          >
+            <ul className="text-sm px-6 py-6 text-gray-700 dark:text-white space-y-3">
+              {Object.entries(fontFamilies).map(([key, value]) => (
+                <li
+                  key={key}
+                  onClick={() => handleFontSelect(key)}
+                  className={classNames(
+                    "block cursor-pointer hover:text-lavender text-lg font-bold",
+                    {
+                      "font-bold": currentFont === key,
+                      "font-sans": key === "sans",
+                      "font-serif": key === "serif",
+                      "font-mono": key === "mono",
+                    }
+                  )}
+                >
+                  {value}
+                </li>
+              ))}
+            </ul>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </div>
+    </>
   );
 }
 

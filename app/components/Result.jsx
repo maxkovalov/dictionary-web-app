@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import useStore from "../utils/useStore";
+import useStore from "../utils/stores/useStore";
 
 function Result() {
   const { word, data, isLoading, fetchData } = useStore();
@@ -26,24 +26,29 @@ function Result() {
         <div>
           <div className="flex justify-between">
             <div>
-              <h2 className="text-3xl md:text-6xl font-extrabold tracking-wide dark:text-white">
+              <h2 className="text-3xl md:text-6xl font-extrabold tracking-wide dark:text-white"
+              tabIndex={0}>
                 {data[0].word}
               </h2>
-              <p className="text-lg md:text-2xl text-lavender mt-4">{data[0].phonetic}</p>
+              <p className="text-lg md:text-2xl text-lavender mt-4">
+                {data[0].phonetic}
+              </p>
             </div>
             <div>
               {data[0].phonetics.find((phonetic) => phonetic.audio) && (
                 <button
+                  aaria-hidden="true"
+                  tabIndex={-1}
                   onClick={() =>
                     handlePlayAudio(
                       data[0].phonetics.find((phonetic) => phonetic.audio).audio
                     )
                   }
-                  className="p-0 scale-75"
+                  className="scale-75 md:scale-100 lg:scale-125"
                 >
                   <div className="">
                     <svg
-                      className="scale-90 md:scale-125 mt-4 transition ease duration-300"
+                      className="transition ease duration-300"
                       xmlns="http://www.w3.org/2000/svg"
                       width="75"
                       height="75"
@@ -87,31 +92,15 @@ function Result() {
                       className="list-disc list-outside ml-10 mb-3 text-charcoal dark:text-white marker:text-lavender"
                       key={definition.definition}
                     >
-                      <span className="relative left-2 text-lg leading-4">{definition.definition}</span>
+                      <span className="relative left-2 text-lg leading-4">
+                        {definition.definition}
+                      </span>
                     </li>
                   ))}
                 </ul>
 
-                {/* {
-                  <div className="flex">
-                    <h4 className="text-xl text-gray pr-5">Synonyms</h4>
-                    <div className="flex flex-wrap items-center gap-x-5">
-                      {meaning.synonyms.map((synonym) => (
-                        <span
-                          onClick={async () => {
-                            await fetchData(synonym);
-                          }}
-                          className="cursor-pointer font-bold text-xl hover:text-lavender hover:underline hover:underline-offset-2 hover:decoration-2 decoration-lavender"
-                        >
-                          {synonym}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                } */}
-
                 {meaning.synonyms.length > 0 && (
-                  <div className="flex">
+                  <div className="flex" tabIndex={0}>
                     <h4 className="text-xl text-gray pr-5">Synonyms</h4>
                     <div className="flex flex-wrap items-center gap-x-5">
                       {meaning.synonyms.map((synonym) => (
@@ -119,7 +108,7 @@ function Result() {
                           onClick={async () => {
                             await fetchData(synonym);
                           }}
-                          className="cursor-pointer font-bold text-xl hover:text-lavender hover:underline hover:underline-offset-2 hover:decoration-2 decoration-lavender"
+                          className="cursor-pointer font-bold text-xl hover:text-lavender hover:underline hover:underline-offset-2 hover:decoration-2 decoration-lavender dark:text-white dark:hover:text-lavender"
                         >
                           {synonym}
                         </span>
@@ -127,7 +116,6 @@ function Result() {
                     </div>
                   </div>
                 )}
-
               </div>
             ))}
           </div>

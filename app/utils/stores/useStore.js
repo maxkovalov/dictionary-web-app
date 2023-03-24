@@ -20,7 +20,6 @@ const useStore = create((set) => ({
       set({ error: error.message, isLoading: false });
     }
   },
-  // deleteData: set({ data: null})
 }));
 
 export default useStore;

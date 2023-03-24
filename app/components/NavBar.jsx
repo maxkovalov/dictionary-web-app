@@ -8,17 +8,19 @@ function NavBar() {
   return (
     <nav>
       <div className="max-w-3xl mx-auto">
-        <div className="flex items-center mt-10 justify-between">
+        <div className="flex items-center pt-10 justify-between">
           <div>
             <a className="drag-none" href="/">
               <img
+                aria-label="Dictionary Web App Logo - Enter for home page"
                 className="drag-none min-w-fit"
                 src="./assets/images/logo.svg"
                 alt="logo"
               />
+              <span class="sr-only"></span>
             </a>
           </div>
-          <div className="flex divide-x divide-light-gray justify-around gap-x-6">
+          <div className="flex justify-around gap-x-6">
             <SplitButton />
             <div className="flex h-3/6">
               <Switch />
