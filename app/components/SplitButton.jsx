@@ -35,6 +35,8 @@ function SplitButton() {
     <>
       <div className="relative" onMouseLeave={handleMouseLeave}>
         <button
+          aria-label="Font selection"
+          tabIndex={0}
           onClick={handleClick}
           onMouseEnter={handleClick}
           className="font-bold text-lg text-black dark:text-white dark:bg-transparent focus:ring-4 focus:outline-none focus:ring-lavender rounded-lg text-center inline-flex items-center dark:focus:ring-lavender"
@@ -58,9 +60,9 @@ function SplitButton() {
             className="absolute -right-2 z-10 bg-white rounded-xl w-44 shadow-lg shadow-light-graydark:shadow-lg dark:shadow-lavender dark:bg-charcoal"
           >
             <ul className="text-sm px-6 py-6 text-gray-700 dark:text-white space-y-3">
-              {Object.entries(fontFamilies).map(([key, value]) => (
+              {Object.entries(fontFamilies).map(([key, value], index) => (
                 <li
-                  key={key}
+                  key={`${key}-${index}`}
                   onClick={() => handleFontSelect(key)}
                   className={classNames(
                     "block cursor-pointer hover:text-lavender text-lg font-bold",

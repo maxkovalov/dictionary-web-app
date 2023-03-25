@@ -4,7 +4,8 @@ import { useState } from "react";
 import useStore from "../utils/stores/useStore";
 
 function Result() {
-  const { word, data, isLoading, fetchData } = useStore();
+  const [word, setWord] = useStore((state) => [state.word, state.setWord]);
+  const { data, isLoading, fetchData } = useStore();
   const [currentAudio, setCurrentAudio] = useState(null);
 
   const handlePlayAudio = (audioUrl) => {
@@ -16,28 +17,28 @@ function Result() {
   return (
     <>
       {data && !isLoading && data.title && (
-        <div className="flex flex-col py-14 text-center transition ease duration-300">
+        <div tabIndex={0} className="flex flex-col py-14 text-center transition ease duration-300">
           <span className="text-xl">&#128577;</span>
           <h1 className="font-bold pt-8 dark:text-white">{data.title}</h1>
           <p className="pt-4 dark:text-gray">{`${data.message} ${data.resolution}`}</p>
         </div>
       )}
-      {data && !isLoading && data[0] != undefined && (
+      {data && !isLoading && data[0] !== undefined && (
         <div>
           <div className="flex justify-between">
             <div>
-              <h2 className="text-3xl md:text-6xl font-extrabold tracking-wide dark:text-white"
-              tabIndex={0}>
+              <h2 className="text-3xl md:text-6xl font-extrabold tracking-wide dark:text-white focus:outline-none focus:ring-4 focus:ring-lavender focus:rounded-md"
+                tabIndex={0} aria-label={data[0].word}>
                 {data[0].word}
               </h2>
-              <p className="text-lg md:text-2xl text-lavender mt-4">
+              <p className="text-lg md:text-2xl text-lavender mt-4 focus:outline-none focus:ring-2 focus:ring-lavender focus:rounded-md">
                 {data[0].phonetic}
               </p>
             </div>
             <div>
               {data[0].phonetics.find((phonetic) => phonetic.audio) && (
                 <button
-                  aaria-hidden="true"
+                  aria-hidden="true"
                   tabIndex={-1}
                   onClick={() =>
                     handlePlayAudio(
@@ -56,7 +57,7 @@ function Result() {
                     >
                       <g
                         className="fill-lavender hover:fill-white"
-                        fill-rule="nonzero"
+                        fillRule="nonzero"
                       >
                         <circle
                           className="fill-lavender hover:fill-lavender opacity-30 hover:opacity-100"
@@ -74,19 +75,19 @@ function Result() {
           </div>
           <div className="border-b-2 border-light-gray pb-4">
             {/* Meanings */}
-            {data[0].meanings.map((meaning) => (
+            {data[0].meanings.map((meaning, index) => (
               <div
                 className="flex flex-col space-y-8"
-                key={meaning.partOfSpeech}
+                key={`${meaning}-${index}`}
               >
                 <div className=" mt-9 inline-block w-full overflow-hidden">
-                  <h3 className="text-lg md:text-2xl font-bold italic relative dark:text-white">
+                  <h3 tabIndex={0} aria-label={`As ${meaning.partOfSpeech[0].match(/^[aeiou]/i) ? "an" : "a"} ${meaning.partOfSpeech} the word means`} className="text-lg md:text-2xl font-bold italic relative dark:text-white">
                     {meaning.partOfSpeech}
                     <span className="absolute w-full ml-4 top-1/2 border-b border-off-white dark:border-gray"></span>
                   </h3>
                 </div>
                 <h4 className="text-md md:text-xl text-gray">Meaning</h4>
-                <ul>
+                <ul tabIndex={0}>
                   {meaning.definitions.map((definition) => (
                     <li
                       className="list-disc list-outside ml-10 mb-3 text-charcoal dark:text-white marker:text-lavender"
@@ -100,14 +101,16 @@ function Result() {
                 </ul>
 
                 {meaning.synonyms.length > 0 && (
-                  <div className="flex" tabIndex={0}>
-                    <h4 className="text-xl text-gray pr-5">Synonyms</h4>
+                  <div className="flex space-x-4">
+                    <h4 className="text-xl text-gray" aria-label={`${meaning.synonyms.length} ${meaning.synonyms.length > 1 ? "synonyms" : "synonym"}. Loop through each one and enter to search.`} tabIndex={0}>Synonyms</h4>
                     <div className="flex flex-wrap items-center gap-x-5">
-                      {meaning.synonyms.map((synonym) => (
+                      {meaning.synonyms.filter((i) => meaning.synonyms.indexOf(i) === meaning.synonyms.lastIndexOf(i)).map((synonym, index) => (
                         <span
-                          onClick={async () => {
-                            await fetchData(synonym);
-                          }}
+                          key={`${synonym}-${index}`}
+                          tabIndex={0}
+                          onClick={async () => { await fetchData(synonym) }}
+                          href="#search"
+                          onKeyDown={async (e) => { if (e.key === 'Enter') { await fetchData(synonym) } }}
                           className="cursor-pointer font-bold text-xl hover:text-lavender hover:underline hover:underline-offset-2 hover:decoration-2 decoration-lavender dark:text-white dark:hover:text-lavender"
                         >
                           {synonym}
@@ -122,6 +125,7 @@ function Result() {
           {data[0].sourceUrls && (
             <div className="dark:text-white text-sm py-4">
               <a
+                aria-label={`Open ${data[0].sourceUrls[0].match(/(?:https?:\/\/)?(?:[^@\/\n]+@)?(?:www\.)?([^:\/\n]+)/g)[0]} in a new tab to learn more about the word`}
                 className="flex items-center hover:underline hover:underline-offset-2 hover:decoration-2 decoration-lavender"
                 href={data[0].sourceUrls[0]}
                 target="_blank"
@@ -154,3 +158,5 @@ function Result() {
 }
 
 export default Result;
+
+

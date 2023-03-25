@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 const useStore = create((set) => ({
-  word: null,
+  word: "",
   setWord: (word) => set(() => ({ word: word})),
   data: null,
   isLoading: false,

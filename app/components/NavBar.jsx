@@ -12,12 +12,12 @@ function NavBar() {
           <div>
             <a className="drag-none" href="/">
               <img
-                aria-label="Dictionary Web App Logo - Enter for home page"
+                aria-label="Logo of a book - Enter for home page"
                 className="drag-none min-w-fit"
                 src="./assets/images/logo.svg"
                 alt="logo"
               />
-              <span class="sr-only"></span>
+              <span className="sr-only"></span>
             </a>
           </div>
           <div className="flex justify-around gap-x-6">

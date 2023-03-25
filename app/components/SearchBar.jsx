@@ -7,26 +7,43 @@ import BeatLoader from "react-spinners/BeatLoader";
 import className from "classnames";
 
 function SearchBar() {
+  const color = "#a445ed"
+  const regexStr = "^[a-zA-Z](?:[a-zA-Z\\s-]+(?:-?(?=[a-zA-Z\\s-]))*[a-zA-Z\\s-]*)?|^$";
+
+  const regex = new RegExp(regexStr);
   const [word, setWord] = useStore((state) => [state.word, state.setWord]);
-  const { isLoading, error, fetchData, deleteData } = useStore();
-  const [color, setColor] = useState("#a445ed");
-  const [btnDisabled, setBtnDisabled] = useState(true);
+  const { isLoading, error, fetchData, data } = useStore();
+  const [searchBtnDisabled, setSearchBtnDisabled] = useState(true);
   const [message, setMessage] = useState("");
 
   const handleSearhInputChange = (e) => {
-    const inputValue = e.target.value.trim();
-    if (inputValue === "") {
-      setBtnDisabled(true);
+    let inputValue = e.target.value
+      .replace(/^\s/, "")
+      .replace(/^-/, "")
+      .replace(/\s{2,}/g, " ")
+      .replace(/-{2,}/g, "-")
+      .replace(/(\s-){1,}/g, " ")
+      .replace(/(-\s){1,}/g, "-");
+
+    if (!/^[a-zA-Z\s-]*$/.test(inputValue)) {
+      setSearchBtnDisabled(true);
+      setMessage("Whoops, can only contain letters, space or hyphen...");
+    } else if (inputValue === "") {
+      setSearchBtnDisabled(true);
       setMessage("Whoops, can't be empty...");
+      setWord("");
+    } else if (inputValue.length > 50) {
+      setSearchBtnDisabled(true);
+      setMessage("Whoops, can't be longer than 50 characters...");
     } else {
-      setMessage(null);
-      setBtnDisabled(false);
+      setMessage("")
+      setWord(inputValue);
+      setSearchBtnDisabled(false);
     }
-    setWord(inputValue);
   };
 
   const handleEnterKey = async (e) => {
-    if (e.keyCode === 13) {
+    if (!searchBtnDisabled && e.keyCode === 13) {
       await fetchData(word);
     }
   };
@@ -41,11 +58,13 @@ function SearchBar() {
         <input
           id="search"
           type="text"
-          aria-label="Search for any word"
           placeholder="Search for any word..."
-          autoCapitalize="off"
+          autoComplete="off"
+          autoCapitalize="none"
           value={word}
-          pattern="[A-Za-z]{1,}"
+          aria-invalid={message ? "true" : "false"}
+          aria-describedby={message ? "search-error" : ""}
+          pattern={`${regexStr}`}
           onChange={handleSearhInputChange}
           onKeyDown={handleEnterKey}
           className={className(
@@ -58,8 +77,9 @@ function SearchBar() {
         />
         <button
           aria-label="Search word"
+          tabIndex={(data && data[0]?.word == word) || data?.title ? "-1" : "0"}
           onClick={handleClick}
-          disabled={btnDisabled}
+          disabled={searchBtnDisabled}
           className="absolute top-0 right-0 p-6 cursor-pointer"
         >
           <svg
@@ -78,7 +98,7 @@ function SearchBar() {
             />
           </svg>
         </button>
-        {message && <div className="absolute text-red p-1">{message}</div>}
+        {message && <div id="search-error" className="absolute text-red p-1" aria-live="assertive">{message}</div>}
       </div>
       {isLoading && (
         <div className="flex justify-center pt-32">
