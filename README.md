@@ -202,7 +202,7 @@ The following information should be included when giving attribution:
 |License | This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0) license. To view a copy of this license, visit https://creativecommons.org/licenses/by-nc/4.0/. |
 
 
-Distributed under the CC BY-NC 4.0 License. See [x](license-url) for more information.
+Distributed under the CC BY-NC 4.0 License. See [LICENSE.md](https://github.com/maxkovalov/dictionary-web-app/blob/master/LICENSE.md) for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -242,7 +242,7 @@ Project Link: [https://github.com/maxkovalov/dictionary-web-app](https://github.
 [issues-shield]: https://img.shields.io/github/issues/maxkovalov/dictionary-web-app.svg?style=for-the-badge
 [issues-url]: https://github.com/maxkovalov/dictionary-web-app/issues
 [license-shield]: https://img.shields.io/github/license/maxkovalov/dictionary-web-app.svg?style=for-the-badge
-[license-url]: https://github.com/maxkovalov/dictionary-web-app/blob/master/LICENSE
+[license-url]: https://github.com/maxkovalov/dictionary-web-app/blob/master/LICENSE.md
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/maxkovalov
 [product-screenshot]: images/screenshot.webp
