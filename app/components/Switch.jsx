@@ -25,7 +25,7 @@ function Switch() {
         >
           <span
             className={classNames("h-5 w-5 bg-white rounded-full scale-75", {})}
-          ></span>
+          />
         </div>
       )}
     </>
@@ -33,4 +33,3 @@ function Switch() {
 }
 
 export default Switch;
-

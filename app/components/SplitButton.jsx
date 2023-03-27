@@ -33,17 +33,17 @@ function SplitButton() {
 
   return (
     <>
-      <div className="relative" onMouseLeave={handleMouseLeave}>
+      <div className="relative py" onMouseLeave={handleMouseLeave}>
         <button
           aria-label="Font selection"
           tabIndex={0}
           onClick={handleClick}
           onMouseEnter={handleClick}
-          className="font-bold text-lg text-black dark:text-white dark:bg-transparent focus:ring-4 focus:outline-none focus:ring-lavender rounded-lg text-center inline-flex items-center dark:focus:ring-lavender"
+          className="pr-6 font-bold text-lg text-black dark:text-white dark:bg-transparent focus:ring-4 focus:outline-none focus:ring-lavender rounded-lg text-center inline-flex items-center dark:focus:ring-lavender"
         >
-          {fontFamilies[currentFont]}
+          <span className="pr-4">{fontFamilies[currentFont]}</span>
           <svg
-            className="w-4 h-4 ml-2"
+            className=" w-4 h-4 fill-current text-lavender"
             aria-hidden="true"
             viewBox="0 0 14 8"
             xmlns="http://www.w3.org/2000/svg"

@@ -5,18 +5,20 @@ import { useState, useEffect } from "react";
 import useStore from "../utils/stores/useStore";
 import BeatLoader from "react-spinners/BeatLoader";
 import className from "classnames";
+import SearchIcon from "./SearchIcon";
 
 function SearchBar() {
-  const color = "#a445ed"
-  const regexStr = "^[a-zA-Z](?:[a-zA-Z\\s-]+(?:-?(?=[a-zA-Z\\s-]))*[a-zA-Z\\s-]*)?|^$";
+  const color = "#a445ed";
+  const regexStr =
+    "^[a-zA-Z](?:[a-zA-Z\\s-]+(?:-?(?=[a-zA-Z\\s-]))*[a-zA-Z\\s-]*)?|^$";
 
   const regex = new RegExp(regexStr);
   const [word, setWord] = useStore((state) => [state.word, state.setWord]);
-  const { isLoading, error, fetchData, data } = useStore();
+  const { isLoading, fetchData, data } = useStore();
   const [searchBtnDisabled, setSearchBtnDisabled] = useState(true);
   const [message, setMessage] = useState("");
 
-  const handleSearhInputChange = (e) => {
+  const handleSearchInputChange = (e) => {
     let inputValue = e.target.value
       .replace(/^\s/, "")
       .replace(/^-/, "")
@@ -27,7 +29,7 @@ function SearchBar() {
 
     if (!/^[a-zA-Z\s-]*$/.test(inputValue)) {
       setSearchBtnDisabled(true);
-      setMessage("Whoops, can only contain letters, space or hyphen...");
+      setMessage(`Whoops, can only contain letters, space or hyphen...`);
     } else if (inputValue === "") {
       setSearchBtnDisabled(true);
       setMessage("Whoops, can't be empty...");
@@ -36,7 +38,7 @@ function SearchBar() {
       setSearchBtnDisabled(true);
       setMessage("Whoops, can't be longer than 50 characters...");
     } else {
-      setMessage("")
+      setMessage("");
       setWord(inputValue);
       setSearchBtnDisabled(false);
     }
@@ -65,7 +67,7 @@ function SearchBar() {
           aria-invalid={message ? "true" : "false"}
           aria-describedby={message ? "search-error" : ""}
           pattern={`${regexStr}`}
-          onChange={handleSearhInputChange}
+          onChange={handleSearchInputChange}
           onKeyDown={handleEnterKey}
           className={className(
             "w-full bg-off-white rounded-2xl font-bold text-xl px-6 py-5 caret-lavender focus:outline-none invalid:ring-2 invalid:ring-red dark:bg-charcoal dark:text-white",
@@ -82,23 +84,17 @@ function SearchBar() {
           disabled={searchBtnDisabled}
           className="absolute top-0 right-0 p-6 cursor-pointer"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="18"
-            height="18"
-            viewBox="0 0 18 18"
-          >
-            <path
-              fill="none"
-              stroke="#A445ED"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="1.5"
-              d="m12.663 12.663 3.887 3.887M1 7.664a6.665 6.665 0 1 0 13.33 0 6.665 6.665 0 0 0-13.33 0Z"
-            />
-          </svg>
+          <SearchIcon />
         </button>
-        {message && <div id="search-error" className="absolute text-red p-1" aria-live="assertive">{message}</div>}
+        {message && (
+          <div
+            id="search-error"
+            className="absolute text-red p-1"
+            aria-live="assertive"
+          >
+            {message}
+          </div>
+        )}
       </div>
       {isLoading && (
         <div className="flex justify-center pt-32">

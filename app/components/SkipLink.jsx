@@ -4,12 +4,15 @@ import React from "react";
 import useStore from "../utils/stores/useStore";
 
 function SkipLink() {
-  const links = [{ "label": "Skip to content", "target": "#main-content" }, { "label": "Skip to search", "target": "#search" }]
-  const [word, setWord] = useStore((state) => [state.word, state.setWord]);
-  
+  const links = [
+    { label: "Skip to content", target: "#main-content" },
+    { label: "Skip to search", target: "#search" },
+  ];
+  const setWord = useStore((state) => state.setWord);
+
   const handleClick = () => {
-    setWord("")
-  }
+    setWord("");
+  };
 
   return (
     <>

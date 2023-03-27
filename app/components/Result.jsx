@@ -2,11 +2,13 @@
 
 import { useState } from "react";
 import useStore from "../utils/stores/useStore";
+import CircleIcon from './PlayIcon';
 
 function Result() {
   const [word, setWord] = useStore((state) => [state.word, state.setWord]);
   const { data, isLoading, fetchData } = useStore();
   const [currentAudio, setCurrentAudio] = useState(null);
+  
 
   const handlePlayAudio = (audioUrl) => {
     const audio = new Audio(audioUrl);
@@ -47,7 +49,7 @@ function Result() {
                   }
                   className="scale-75 md:scale-100 lg:scale-125"
                 >
-                  <div className="">
+                  <div>
                     <svg
                       className="transition ease duration-300"
                       xmlns="http://www.w3.org/2000/svg"
@@ -133,21 +135,7 @@ function Result() {
               >
                 {data[0].sourceUrls[0]}
                 <div className="-order-1 pr-5">Source</div>
-                <svg
-                  className="ml-2 fill-none stroke-gray hover:stroke-lavender dark:stroke-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="14"
-                  height="14"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    className=""
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.5"
-                    d="M6.09 3.545H2.456A1.455 1.455 0 0 0 1 5v6.545A1.455 1.455 0 0 0 2.455 13H9a1.455 1.455 0 0 0 1.455-1.455V7.91m-5.091.727 7.272-7.272m0 0H9m3.636 0V5"
-                  />
-                </svg>
+                <CircleIcon color="gray" hoverColor="lavender" size="14" />
               </a>
             </div>
           )}
